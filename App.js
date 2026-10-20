@@ -7,11 +7,6 @@ export default function App() {
     setBejegyzes((elozok) => elozok.map((item) => (item.id === id ? { ...item, kedvenc: !item.kedvenc } : item)));
   };
   const kedvencek = bejegyzes1.filter((item) => item.kedvenc).length;
-  // const bejegyzesek = [
-  //   { id: 1, cim: 'vsdv', hely: 'asd', leiras: 'asdfasdsd' },
-  //   { id: 2, cim: 'sdvvsdv', hely: 'asdf' },
-  //   { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd' },
-  // ];
 
   const [bejegyzes1, setBejegyzes] = useState([
     {
