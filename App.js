@@ -3,16 +3,26 @@ import Bejegyzes from './components/Bejegyzes.jsx';
 import { useState } from 'react';
 
 export default function App() {
-  const bejegyzesek = [
-    { id: 1, cim: 'vsdv', hely: 'asd', leiras: 'asdfasdsd' },
-    { id: 2, cim: 'sdvvsdv', hely: 'asdf' },
-    { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd' },
-  ];
+  const kedvencValt = (id) => {
+    setBejegyzes((elozok) => elozok.map((item) => (item.id === id ? { ...item, kedvenc: !item.kedvenc } : item)));
+  };
+  const kedvencek = bejegyzes1.filter((item) => item.kedvenc).length;
+  // const bejegyzesek = [
+  //   { id: 1, cim: 'vsdv', hely: 'asd', leiras: 'asdfasdsd' },
+  //   { id: 2, cim: 'sdvvsdv', hely: 'asdf' },
+  //   { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd' },
+  // ];
 
   const [bejegyzes1, setBejegyzes] = useState([
-    { id: 1, cim: 'vsdv', hely: 'asd', leiras: 'asdfasdsd' },
-    { id: 2, cim: 'sdvvsdv', hely: 'asdf' },
-    { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd' },
+    {
+      id: 1,
+      cim: 'vsdv',
+      hely: 'asd',
+      leiras: 'asdfasdsd',
+      kedvenc: false,
+    },
+    { id: 2, cim: 'sdvvsdv', hely: 'asdf', kedvenc: true },
+    { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd', kedvenc: false },
   ]);
   const [ujCim, setUjCim] = useState('');
   const [ujHely, setUjHely] = useState('');
@@ -21,8 +31,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Bejegyzések száma: {bejegyzes1.length}</Text>
-      {bejegyzesek.map((bejegyzes) => (
-        <Bejegyzes key={bejegyzes.id} cim={bejegyzes.cim} hely={bejegyzes.hely} leiras={bejegyzes.leiras} />
+      <Text>Kedvencek száma: {kedvencek}</Text>
+      {bejegyzes1.map((bejegyzes) => (
+        <View key={bejegyzes.id}>
+          <Bejegyzes key={bejegyzes.id} cim={bejegyzes.cim} hely={bejegyzes.hely} leiras={bejegyzes.leiras} />
+          <Text>{bejegyzes.kedvenc ? 'Kedvenc' : 'Nem kedvenc'}</Text>
+          <Button onPress={kedvencValt(bejegyzes.id)}>Kedvenc státuszt váltása</Button>
+        </View>
       ))}
 
       <TextInput value={ujCim} onChangeText={setUjCim} placeholder="Adja meg az új bejegyzés címét: " />
@@ -37,6 +52,7 @@ export default function App() {
             cim: ujCim,
             hely: ujHely,
             leiras: ujLeiras,
+            kedvenc: false,
           };
 
           setBejegyzes((elozok) => [...elozok, newItem]);
