@@ -3,7 +3,7 @@ import Bejegyzes from './components/Bejegyzes.jsx';
 import { useState } from 'react';
 
 export default function App() {
-    const [bejegyzes1, setBejegyzes] = useState([
+  const [bejegyzes1, setBejegyzes] = useState([
     {
       id: 1,
       cim: 'vsdv',
