@@ -3,12 +3,7 @@ import Bejegyzes from './components/Bejegyzes.jsx';
 import { useState } from 'react';
 
 export default function App() {
-  const kedvencValt = (id) => {
-    setBejegyzes((elozok) => elozok.map((item) => (item.id === id ? { ...item, kedvenc: !item.kedvenc } : item)));
-  };
-  const kedvencek = bejegyzes1.filter((item) => item.kedvenc).length;
-
-  const [bejegyzes1, setBejegyzes] = useState([
+    const [bejegyzes1, setBejegyzes] = useState([
     {
       id: 1,
       cim: 'vsdv',
@@ -19,10 +14,15 @@ export default function App() {
     { id: 2, cim: 'sdvvsdv', hely: 'asdf', kedvenc: true },
     { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd', kedvenc: false },
   ]);
+
   const [ujCim, setUjCim] = useState('');
   const [ujHely, setUjHely] = useState('');
   const [ujLeiras, setUjLeiras] = useState('');
 
+  const kedvencValt = (id) => {
+    setBejegyzes((elozok) => elozok.map((item) => (item.id === id ? { ...item, kedvenc: !item.kedvenc } : item)));
+  };
+  const kedvencek = bejegyzes1.filter((item) => item.kedvenc).length;
   return (
     <View style={styles.container}>
       <Text>Bejegyzések száma: {bejegyzes1.length}</Text>
@@ -31,7 +31,7 @@ export default function App() {
         <View key={bejegyzes.id}>
           <Bejegyzes key={bejegyzes.id} cim={bejegyzes.cim} hely={bejegyzes.hely} leiras={bejegyzes.leiras} />
           <Text>{bejegyzes.kedvenc ? 'Kedvenc' : 'Nem kedvenc'}</Text>
-          <Button onPress={kedvencValt(bejegyzes.id)}>Kedvenc státuszt váltása</Button>
+          <Button title="Kedvenc státuszt váltása" onPress={kedvencValt(bejegyzes.id)} />
         </View>
       ))}
 
@@ -43,7 +43,7 @@ export default function App() {
         onPress={() => {
           if (ujCim === '' || ujHely === '') return;
           const newItem = {
-            id: Date().now(),
+            id: Date.now(),
             cim: ujCim,
             hely: ujHely,
             leiras: ujLeiras,
