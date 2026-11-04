@@ -31,7 +31,7 @@ export default function App() {
         <View key={bejegyzes.id}>
           <Bejegyzes key={bejegyzes.id} cim={bejegyzes.cim} hely={bejegyzes.hely} leiras={bejegyzes.leiras} />
           <Text>{bejegyzes.kedvenc ? 'Kedvenc' : 'Nem kedvenc'}</Text>
-          <Button title="Kedvenc státuszt váltása" onPress={kedvencValt(bejegyzes.id)} />
+          <Button title="Kedvenc státuszt váltása" onPress={() => kedvencValt(bejegyzes.id)} />
         </View>
       ))}
 
