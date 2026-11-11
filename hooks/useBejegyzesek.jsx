@@ -1,31 +1,48 @@
 import { useEffect, useState } from 'react';
 
 export default function useBejyegyzesek() {
-  const [bejegyzesek, setBejegyzes] = useState([]);
+  const [bejegyzes1, setBejegyzes] = useState([]);
+  const [betoltve, setBetoltve] = useState(false);
 
   useEffect(() => {
-    const eredeti = [
-      {
-        id: 1,
-        cim: 'vsdv',
-        hely: 'asd',
-        leiras: 'asdfasdsd',
-        kedvenc: false,
-      },
-      { id: 2, cim: 'sdvvsdv', hely: 'asdf', kedvenc: true },
-      { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd', kedvenc: false },
-    ];
-    eredeti.map((item) => {
-      const newItem = {
-        id: item.id,
-        cim: item.cim,
-        hely: item.hely,
-        leiras: item.leiras,
-        kedvenc: item.kedvenc,
-      };
-      return setBejegyzes(newItem);
-    });
-  }, [bejegyzesek]);
+    setTimeout(() => {
+      const places = [
+        {
+          id: 1,
+          cim: 'vsdv',
+          hely: 'asd',
+          leiras: 'asdfasdsd',
+          kedvenc: false,
+        },
+        { id: 2, cim: 'sdvvsdv', hely: 'asdf', kedvenc: true },
+        { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd', kedvenc: false },
+      ];
 
-  return { bejegyzesek, setBejegyzes };
+      setBejegyzes(places);
+      setBetoltve(true);
+    }, 2000);
+  }, []);
+
+  const ujBejegyzes = (cim, hely, leiras) => {
+    const newItem = {
+      id: Date.now(),
+      cim: cim,
+      hely: hely,
+      leiras: leiras,
+      kedvenc: false,
+    };
+
+    setBejegyzes((elozok) => [...elozok, newItem]);
+  };
+
+  const kedvencValt = (id) => {
+    setBejegyzes((elozok) => elozok.map((item) => (item.id === id ? { ...item, kedvenc: !item.kedvenc } : item)));
+  };
+
+  return {
+    bejegyzes1,
+    betoltve,
+    ujBejegyzes,
+    kedvencValt,
+  };
 }

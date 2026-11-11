@@ -1,62 +1,49 @@
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
 import Bejegyzes from './components/Bejegyzes.jsx';
 import { useState } from 'react';
+import useBejyegyzesek from './hooks/useBejegyzesek.jsx';
 
 export default function App() {
-  const [bejegyzes1, setBejegyzes] = useState([
-    {
-      id: 1,
-      cim: 'vsdv',
-      hely: 'asd',
-      leiras: 'asdfasdsd',
-      kedvenc: false,
-    },
-    { id: 2, cim: 'sdvvsdv', hely: 'asdf', kedvenc: true },
-    { id: 3, cim: 'cycysc', hely: 'asdfg', leiras: 'asdasdasdasdasd', kedvenc: false },
-  ]);
+  const { bejegyzes1, ujBejegyzes, kedvencValt, betoltve } = useBejyegyzesek();
 
   const [ujCim, setUjCim] = useState('');
   const [ujHely, setUjHely] = useState('');
   const [ujLeiras, setUjLeiras] = useState('');
 
-  const kedvencValt = (id) => {
-    setBejegyzes((elozok) => elozok.map((item) => (item.id === id ? { ...item, kedvenc: !item.kedvenc } : item)));
-  };
   const kedvencek = bejegyzes1.filter((item) => item.kedvenc).length;
   return (
     <View style={styles.container}>
-      <Text>Bejegyzések száma: {bejegyzes1.length}</Text>
-      <Text>Kedvencek száma: {kedvencek}</Text>
-      {bejegyzes1.map((bejegyzes) => (
-        <View key={bejegyzes.id}>
-          <Bejegyzes key={bejegyzes.id} cim={bejegyzes.cim} hely={bejegyzes.hely} leiras={bejegyzes.leiras} />
-          <Text>{bejegyzes.kedvenc ? 'Kedvenc' : 'Nem kedvenc'}</Text>
-          <Button title="Kedvenc státuszt váltása" onPress={() => kedvencValt(bejegyzes.id)} />
-        </View>
-      ))}
+      {!betoltve ? (
+        <Text>Adatok betöltése:</Text>
+      ) : (
+        <>
+          <Text>Bejegyzések száma: {bejegyzes1.length}</Text>
+          <Text>Kedvencek száma: {kedvencek}</Text>
+          {bejegyzes1.map((bejegyzes) => (
+            <View key={bejegyzes.id}>
+              <Bejegyzes key={bejegyzes.id} cim={bejegyzes.cim} hely={bejegyzes.hely} leiras={bejegyzes.leiras} />
+              <Text>{bejegyzes.kedvenc ? 'Kedvenc' : 'Nem kedvenc'}</Text>
+              <Button title="Kedvenc státuszt váltása" onPress={() => kedvencValt(bejegyzes.id)} />
+            </View>
+          ))}
 
-      <TextInput value={ujCim} onChangeText={setUjCim} placeholder="Adja meg az új bejegyzés címét: " />
-      <TextInput value={ujHely} onChangeText={setUjHely} placeholder="Adja meg az új bejegyzés helyét: " />
-      <TextInput value={ujLeiras} onChangeText={setUjLeiras} placeholder="Adja meg az új bejegyzés leírását: " />
-      <Button
-        title="Hozzáadás"
-        onPress={() => {
-          if (ujCim === '' || ujHely === '') return;
-          const newItem = {
-            id: Date.now(),
-            cim: ujCim,
-            hely: ujHely,
-            leiras: ujLeiras,
-            kedvenc: false,
-          };
+          <TextInput value={ujCim} onChangeText={setUjCim} placeholder="Adja meg az új bejegyzés címét: " />
+          <TextInput value={ujHely} onChangeText={setUjHely} placeholder="Adja meg az új bejegyzés helyét: " />
+          <TextInput value={ujLeiras} onChangeText={setUjLeiras} placeholder="Adja meg az új bejegyzés leírását: " />
+          <Button
+            title="Hozzáadás"
+            onPress={() => {
+              if (ujCim === '' || ujHely === '') return;
 
-          setBejegyzes((elozok) => [...elozok, newItem]);
+              ujBejegyzes(ujCim, ujHely, ujLeiras);
 
-          setUjCim('');
-          setUjHely('');
-          setUjLeiras('');
-        }}
-      />
+              setUjCim('');
+              setUjHely('');
+              setUjLeiras('');
+            }}
+          />
+        </>
+      )}
     </View>
   );
 }
