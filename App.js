@@ -1,6 +1,6 @@
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
 import Bejegyzes from './components/Bejegyzes.jsx';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import useBejyegyzesek from './hooks/useBejegyzesek.jsx';
 
 export default function App() {
@@ -21,6 +21,9 @@ export default function App() {
         <>
           <Text>Keresési feltételek:</Text>
           <TextInput value={kereses} onChangeText={setKereses} placeholder="Adja meg a keresés feltételét:" />
+          <Button title='Csak kedvencek' onPress={() => {
+            setSzurtElem(bejegyzes1.filter((post => post.kedvenc)))
+          }} />
           <Button
             title="Keresés"
             onPress={() => {
