@@ -23,12 +23,12 @@ export default function useBejyegyzesek() {
     }, 2000);
   }, []);
 
-  const ujBejegyzes = (cim, hely, leiras) => {
+  const ujBejegyzes = (cim1, hely1, leiras1) => {
     const newItem = {
       id: Date.now(),
-      cim: cim,
-      hely: hely,
-      leiras: leiras,
+      cim: cim1,
+      hely: hely1,
+      leiras: leiras1,
       kedvenc: false,
     };
 
